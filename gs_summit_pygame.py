@@ -2,6 +2,7 @@ import pygame
 import time
 
 g_cipher_panels = []
+g_answer_count = 5
 
 def LoadCipherPanels():
     g_cipher_panels.append(
@@ -41,15 +42,14 @@ def DrawCipherPanels(pygame_screen):
             pygame_screen.blit(single_panel['active_image'], single_panel['starting_pos'])
         else:
             pygame_screen.blit(single_panel['inactive_image'], single_panel['starting_pos'])
-        pygame.display.flip()  
+    pygame.display.flip()
 
 
 def ResetCipherPanels(pygame_screen):
     for single_panel in g_cipher_panels:
         single_panel['is_active'] = False
         pygame_screen.blit(single_panel['inactive_image'], single_panel['starting_pos'])
-        pygame.display.flip()
-
+    pygame.display.flip()
 
 
 def HandleQuit(pygame):
@@ -62,7 +62,7 @@ def HandleQuit(pygame):
 def main():
     pygame.init()
     pygame.display.set_caption("GS Summit Cipher")
-    screen = pygame.display.set_mode((1920, 900))
+    screen = pygame.display.set_mode((1920, 1080))
     screen.fill((0,128,128))
 
     LoadCipherPanels()
@@ -70,22 +70,15 @@ def main():
 
     running = True
     while running:
-##        for panel in g_cipher_panels:
-##            panel_area = (panel['starting_pos'][0],
-##                          panel['starting_pos'][1],
-##                          panel['active_image'].get_width(),
-##                          panel['active_image'].get_height())
-##            
-##            pygame.draw.rect(screen,(0,0,0),panel_area)
-##            pygame.display.flip()
         ResetCipherPanels(screen)
-        time.sleep(2)
+        time.sleep(1)
         g_cipher_panels[0]['is_active'] = True
+        g_cipher_panels[1]['is_active'] = True
         g_cipher_panels[2]['is_active'] = True
+        g_cipher_panels[3]['is_active'] = True
         g_cipher_panels[4]['is_active'] = True
         DrawCipherPanels(screen)
-        time.sleep(0.5)
-
+        time.sleep(1)
         HandleQuit(pygame)
 
 if __name__ == "__main__":
