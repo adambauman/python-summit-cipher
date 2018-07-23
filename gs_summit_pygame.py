@@ -5,34 +5,52 @@ g_cipher_panels = []
 
 def LoadCipherPanels():
     g_cipher_panels.append(
-        {'image': pygame.image.load("panel1.png"),
+        {'active_image': pygame.image.load("red_plate_active.png"),
+         'inactive_image': pygame.image.load("red_plate_inactive.png"),
          'is_active': False,
          'starting_pos': (0,0)
          })
     g_cipher_panels.append(
-        {'image': pygame.image.load("panel2.png"),
+        {'active_image': pygame.image.load("orange_plate_active.png"),
+         'inactive_image': pygame.image.load("orange_plate_inactive.png"),
          'is_active': False,
          'starting_pos': (384,0)
          })
     g_cipher_panels.append(
-        {'image': pygame.image.load("panel3.png"),
+        {'active_image': pygame.image.load("green_plate_active.png"),
+         'inactive_image': pygame.image.load("green_plate_inactive.png"),
          'is_active': False,
          'starting_pos': (768,0)
          })
     g_cipher_panels.append(
-        {'image': pygame.image.load("panel4.png"),
+        {'active_image': pygame.image.load("blue_plate_active.png"),
+         'inactive_image': pygame.image.load("blue_plate_inactive.png"),
          'is_active': False,
          'starting_pos': (1152,0)
          })
     g_cipher_panels.append(
-        {'image': pygame.image.load("panel5.png"),
+        {'active_image': pygame.image.load("purple_plate_active.png"),
+         'inactive_image': pygame.image.load("purple_plate_inactive.png"),
          'is_active': False,
          'starting_pos': (1536,0)
          })
 
-def DrawCipherPanels(pygame_screen):
+def DrawCipherPanels(pygame_screen):  
     for single_panel in g_cipher_panels:
-        pygame_screen.blit(single_panel['image'], single_panel['starting_pos'])
+        if single_panel['is_active'] == True:
+            pygame_screen.blit(single_panel['active_image'], single_panel['starting_pos'])
+        else:
+            pygame_screen.blit(single_panel['inactive_image'], single_panel['starting_pos'])
+        pygame.display.flip()  
+
+
+def ResetCipherPanels(pygame_screen):
+    for single_panel in g_cipher_panels:
+        single_panel['is_active'] = False
+        pygame_screen.blit(single_panel['inactive_image'], single_panel['starting_pos'])
+        pygame.display.flip()
+
+
 
 def HandleQuit(pygame):
     for event in pygame.event.get():
@@ -48,23 +66,24 @@ def main():
     screen.fill((0,128,128))
 
     LoadCipherPanels()
-    DrawCipherPanels(screen)
-    pygame.display.flip()
+    ResetCipherPanels(screen)
 
     running = True
     while running:
-        for panel in g_cipher_panels:
-            panel_area = (panel['starting_pos'][0],
-                          panel['starting_pos'][1],
-                          panel['image'].get_width(),
-                          panel['image'].get_height())
-            
-            pygame.draw.rect(screen,(0,0,0),panel_area)
-            pygame.display.flip()
-            time.sleep(0.5)
-
+##        for panel in g_cipher_panels:
+##            panel_area = (panel['starting_pos'][0],
+##                          panel['starting_pos'][1],
+##                          panel['active_image'].get_width(),
+##                          panel['active_image'].get_height())
+##            
+##            pygame.draw.rect(screen,(0,0,0),panel_area)
+##            pygame.display.flip()
+        ResetCipherPanels(screen)
+        time.sleep(2)
+        g_cipher_panels[0]['is_active'] = True
+        g_cipher_panels[2]['is_active'] = True
+        g_cipher_panels[4]['is_active'] = True
         DrawCipherPanels(screen)
-        pygame.display.flip()
         time.sleep(0.5)
 
         HandleQuit(pygame)
