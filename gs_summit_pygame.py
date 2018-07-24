@@ -1,6 +1,5 @@
 import pygame
 import RPi.GPIO as GPIO
-import time
 
 # NOTE: (Adam) Setup
 g_answer_count = 5
@@ -29,7 +28,8 @@ except:
 
 def LoadSounds():
     g_sound_library["success"] = pygame.mixer.Sound("success_trimmed.ogg")
-    
+    g_sound_library["yay"] = pygame.mixer.Sound("yay.ogg")
+   
 
 def LoadCipherPanels():
     g_cipher_panels.append(
@@ -69,6 +69,15 @@ def LoadCipherPanels():
          })
 
 
+# IN pygame.mixer.Sound sound
+def PlaySound(sound):
+    clock = pygame.time.Clock()
+    sound.play()
+    # NOTE: (Adam) Before adding pre-init this helped with panel activated/sound sync
+    #while pygame.mixer.get_busy():
+        #clock.tick(60)
+
+
 # IN pygame.display pygame_screen, IN g_cipher_panels single_panel
 # RETURN bool panel_was_activated
 def DrawCipherPanelAction(pygame_screen, single_panel):
@@ -97,7 +106,7 @@ def DrawCipherPanels(pygame_screen):
             play_success_sound = True
         
     if play_success_sound == True:
-        g_sound_library["success"].play()
+        PlaySound(g_sound_library["success"])
         
     pygame.display.flip()
 
@@ -134,7 +143,16 @@ def CheckForQuit(pygame):
 
 
 def main():
-    pygame.init()
+    print("Pygame initializing, please wait...")
+    try:
+        pygame.display.init()
+        pygame.mixer.pre_init(frequency=44100, size=-16, channels=1)
+        pygame.mixer.init()
+    except:
+        print("Pygame failed to initialize...")
+        quit()
+    print("Pygame initialization successful!")
+    
     pygame.display.set_caption("GS Summit Cipher")
     pygame.mouse.set_visible(False)
     if g_fullscreen:
@@ -145,6 +163,8 @@ def main():
     LoadCipherPanels()
     LoadSounds()
     ResetCipherPanels(screen)
+    #NOTE: (Adam) Have had this issue before, need to prime with a single sound before mixer functions
+    PlaySound(g_sound_library["yay"])
 
     quit_requested = False
     while quit_requested == False:
