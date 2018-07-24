@@ -4,7 +4,7 @@ import RPi.GPIO as GPIO
 # NOTE: (Adam) Setup
 g_answer_count = 5
 g_screen_resolution = (1920,1080)
-g_fullscreen = False
+g_fullscreen = True
 g_matrix_output_pins = [4,17,27,22,5]
 g_matrix_input_pins = [18,23,24,25,12]
 g_cipher_panels = []

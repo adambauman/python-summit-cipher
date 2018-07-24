@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Path=/home/pi/src/python-summitcipher
+Exec=python3 /home/pi/src/python-summitcipher/gs_summit_pygame.py
+Name=GS Summit Cipher
+Icon=/home/pi/src/python-summitcipher/gs_logo.xpm
