@@ -1,5 +1,6 @@
 import pygame
 import RPi.GPIO as GPIO
+import time
 
 # NOTE: (Adam) Setup
 g_answer_count = 5
@@ -71,7 +72,7 @@ def LoadCipherPanels():
 
 # IN pygame.mixer.Sound sound
 def PlaySound(sound):
-    clock = pygame.time.Clock()
+    #clock = pygame.time.Clock()
     sound.play()
     # NOTE: (Adam) Before adding pre-init this helped with panel activated/sound sync
     #while pygame.mixer.get_busy():
@@ -172,8 +173,11 @@ def main():
             g_cipher_panels[answer_position]["is_active"] = ReadAnswerMatrix(answer_position)
             
         DrawCipherPanels(screen)
-        #time.sleep(0.1) NOTE: (Adam) Might not need delay to stop GPIO hammering with pygame in play
+        #NOTE: (Adam) Might not need delay to stop GPIO hammering with pygame in play
+        time.sleep(0.2)
         quit_requested = CheckForQuit(pygame)
+        
+
 
     # NOTE: (Adam) Clean-up
     pygame.quit()
